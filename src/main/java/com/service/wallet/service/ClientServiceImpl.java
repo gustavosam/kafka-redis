@@ -32,12 +32,13 @@ public class ClientServiceImpl implements ClientService{
     @Override
     @Cacheable(value = "userCache")
     public String getClient(String clientDocument) {
+
         Mono<ClientDocument> clientDocumentMono = clientRepository.findById(clientDocument);
 
+        logger.info("PRIMERA VEZ SE CONSULTA A LA BD");
 
         clientDocumentMono.doOnNext(clientDoc -> {
             this.prueba = clientDoc;
-            logger.info("PRIMERA VEZ SE CONSULTA A LA BD");
         }).subscribe();
 
         return prueba.toString();
